@@ -1,0 +1,114 @@
+		TASK #1
+def change(x):
+    x = str(x)
+    if int(x) < -2147483647 or int(x) > 2147483647: #sprawdzenie liczby 32bit
+        return 0
+    elif x[0] == "-": #liczby ujemne
+        x2 = x[1:]
+        x3 = "-" + x2[::-1]
+        x4 = int(x3)
+        print(x4)
+        return x4
+    else: #liczby dodatnie
+        x5 = x[::-1]
+        x6 = int(x5)
+        print(x6)
+        return x6
+
+
+change(512)
+change(-954)
+
+
+		TASK #2
+tab = ["", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"] #tablica liter
+
+
+def phone(digits):
+    digits1 = []
+
+    for i in digits:
+        digits1.append(int(i))
+    n = len(digits1)
+
+    result = []
+    g = []
+    for j in digits1:
+        for h in tab[j]:
+            h.strip()
+            g.append(h)
+    if n == 1: #jedna liczba
+        print(g)
+    elif n == 0: #brak liczb
+        print(result)
+    elif (digits1[0] == 7 or digits1[0] == 9) and (digits1[1] == 7 or digits1[1] == 9): #dwie liczby z 4 znakami
+        a = range(0, 4)
+        b = range(4, 8)
+        for s in a:
+            for o in b:
+                d = g[s] + g[o]
+                result.append(d)
+        print(result)
+    elif digits1[0] == 7 or digits1[0] == 9 and n > 1: #jedna liczba z 4 znakami na pierwszej pozycji
+        a = range(0, 4)
+        b = range(4, 7)
+        for s in a:
+            for o in b:
+                d = g[s] + g[o]
+                result.append(d)
+        print(result)
+    elif digits1[1] == 7 or digits1[1] == 9 and n > 1: #jedna liczba z 4 znakami na drugiej pozycji
+        a = range(0, 3)
+        b = range(3, 7)
+        for s in a:
+            for o in b:
+                d = g[s] + g[o]
+                result.append(d)
+        print(result)
+    else: #liczby z 3 znakami
+        a = range(0, 3)
+        b = range(3, 6)
+        for s in a:
+            for o in b:
+                d = g[s] + g[o]
+                result.append(d)
+        print(result)
+
+
+phone(digits='46')
+phone(digits='')
+phone(digits='2')
+
+
+		TASK #3
+def justify(words, width):
+
+    if not words: #pusta tablica wyrazy
+        return [""]
+
+    res = []
+    cur = []
+    num_letters = 0
+
+    for w in words:
+        if num_letters + len(w) + len(cur) > width:
+            if len(cur) == 1:   #pierwszy wyraz w linii
+                res.append(cur[0] + ' ' * (width - num_letters))
+            else: #reszta wyrazów
+                num_spaces = width - num_letters
+                space_between, extra = divmod(num_spaces, len(cur) - 1)
+                for i in range(extra):
+                    cur[i] += ' '
+                res.append((' '*space_between).join(cur))
+
+            cur = []
+            num_letters = 0
+
+        cur.append(w)
+        num_letters += len(w)
+    res.append(' '.join(cur) + ' ' * (width - num_letters - len(cur) + 1))  #ostatnia linia
+    return res
+
+
+print(justify(words=['Hey', 'there', 'mate,', 'it`s', 'nice', 'to', 'finally', 'meet', 'you.'], width=16))
+
